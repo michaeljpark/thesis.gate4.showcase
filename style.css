@@ -1,0 +1,163 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Disable default body scroll */
+}
+
+/* Fixed Title Overlay */
+#title-overlay {
+    position: fixed;
+    top: 30px;
+    left: 40px;
+    z-index: 100;
+    pointer-events: none; /* Allow scrolling underneath */
+    mix-blend-mode: difference; /* Ensure visibility on light/dark images */
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: -1px; /* Interpreting -0.15 as a tighter tracking */
+    text-transform: uppercase;
+}
+
+#info-overlay {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    z-index: 100;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: -1px;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+/* Centered Navigation */
+#top-nav {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px); /* Centered and slightly down for enter animation */
+    z-index: 100;
+    
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none; /* Initial state, will be enabled when visible */
+}
+
+#top-nav.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto; /* Enable clicks when visible */
+}
+
+#nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Space between items */
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+#nav-links li {
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    color: #fff;
+    white-space: nowrap;
+    position: relative;
+    z-index: 2;
+    padding: 6px 12px;
+    mix-blend-mode: difference; /* Critical for auto-color inversion on white pill */
+    cursor: pointer; /* Clickable cursor */
+}
+
+/* The Sliding Pill */
+#nav-pill-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 50px;
+    z-index: 1; /* Behind text */
+    pointer-events: none;
+    
+    /* Transitions for movement */
+    transition: left 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0; /* Hidden until first activation */
+}
+
+#nav-pill-bg.active {
+    opacity: 1;
+}
+
+/* Main Slideshow Container */
+#slideshow-container {
+    height: 100vh;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    
+    /* The "Snap" Magic */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+
+    /* Hide Scrollbars */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE/Edge */
+}
+
+#slideshow-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* Individual Slide */
+.slide {
+    height: 100vh;
+    width: 100%;
+    
+    /* Snap Alignment */
+    scroll-snap-align: start;
+    
+    /* Content Centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #050505;
+}
+
+/* Image Styling */
+.slide img {
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain; /* Keeps aspect ratio entire image visible */
+    display: block;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* Fade in effect when image loads */
+.slide img.loaded {
+    opacity: 1;
+}
+
+/* Page Number Indicator */
+.page-number {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.5;
+}
