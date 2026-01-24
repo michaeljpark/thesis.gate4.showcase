@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         video.autoplay = true;
         video.loop = true;
         video.muted = true; // Needed for autoplay
+        video.setAttribute('playsinline', ''); // Needed for mobile autoplay (iOS)
 
         videoWrapper.appendChild(video);
 
