@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('slideshow-container');
-    const totalSlides = 26; // Total number of images
+    const totalSlides = 44; // Max frame index (0 to 44)
 
     // Function to create an image slide
     const createImageSlide = (index) => {
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slide.classList.add('slide');
 
         const img = document.createElement('img');
-        img.src = `${index}.png`; 
+        img.src = `Frame-${index}.png`; 
         img.alt = `Gate 4 Showcase - Slide ${index}`;
         
         if (index > 3) {
@@ -21,8 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const pageNum = document.createElement('div');
         pageNum.classList.add('page-number');
-        // page number logic might need adjustment if we count iframe as a page
-        // current logic: keeps image numbers same 1..26
         pageNum.textContent = `${index} / ${totalSlides}`; 
 
         slide.appendChild(img);
@@ -47,21 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return slide;
     };
 
-    let slidesCreated = 0;
-
-    for (let i = 1; i <= totalSlides; i++) {
+    for (let i = 0; i <= totalSlides; i++) {
         // Create image slide
         const slide = createImageSlide(i);
         container.appendChild(slide);
-        slidesCreated++;
 
-        // Insert iframe between 24 and 25
-        if (i === 24) {
+        // Insert iframe between 34 and 35
+        if (i === 34) {
              const iframeSlide = createIframeSlide();
-             // Mark this as a special slide for tracking if needed, though index order is enough
              iframeSlide.setAttribute('data-type', 'iframe');
              container.appendChild(iframeSlide);
-             slidesCreated++;
         }
     }
 
@@ -72,17 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Map section names to li indices
     const sectionIndexMap = {
-        "Project recap": 0,
-        "User Flow": 1,
-        "Working prototype": 2,
+        "Recap": 0,
+        "Insights": 1,
+        "User Flow": 2,
         "Branding": 3
     };
 
+    // Recap: 1-7 (DOM 2-8)
+    // Insights: 8-17 (DOM 9-18)
+    // User Flow: 18-34 (DOM 19-35)
+    // Iframe: (DOM 36) - gap
+    // Branding: 35-44 (DOM 37-46)
     const sections = [
-        { start: 2, end: 7, label: "Project recap" },
-        { start: 8, end: 24, label: "User Flow" },
-        { start: 25, end: 25, label: "Working prototype" }, // The iframe
-        { start: 26, end: 27, label: "Branding" } 
+        { start: 2, end: 8, label: "Recap" },
+        { start: 9, end: 18, label: "Insights" },
+        { start: 19, end: 35, label: "User Flow" }, 
+        { start: 37, end: 46, label: "Branding" } 
     ];
 
     const updatePillPosition = (label) => {
