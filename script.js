@@ -68,18 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         "Recap": 0,
         "Insights": 1,
         "User Flow": 2,
-        "Branding": 3
+        "Working Prototype": 3,
+        "Branding": 4
     };
 
     // Recap: 1-7 (DOM 2-8)
     // Insights: 8-17 (DOM 9-18)
     // User Flow: 18-34 (DOM 19-35)
-    // Iframe: (DOM 36) - gap
+    // Working Prototype (Iframe): (DOM 36)
     // Branding: 35-44 (DOM 37-46)
     const sections = [
         { start: 2, end: 8, label: "Recap" },
         { start: 9, end: 18, label: "Insights" },
         { start: 19, end: 35, label: "User Flow" }, 
+        { start: 36, end: 36, label: "Working Prototype" },
         { start: 37, end: 46, label: "Branding" } 
     ];
 
