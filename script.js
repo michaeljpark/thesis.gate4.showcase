@@ -33,15 +33,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const slide = document.createElement('div');
         slide.classList.add('slide');
         
+        // Container for side-by-side layout
+        const container = document.createElement('div');
+        container.style.display = 'flex';
+        container.style.width = '100%';
+        container.style.height = '100%';
+
         const iframe = document.createElement('iframe');
         iframe.src = "https://michaeljpark.github.io/thesis.gate4/";
-        iframe.style.width = "100%";
+        iframe.style.flex = "1"; // take up 50%
         iframe.style.height = "100%";
         iframe.style.border = "none";
         // Allow audio (microphone), autoplay, and other interactive features
         iframe.allow = "autoplay; cleanup; fullscreen; microphone; camera; midi; encrypted-media; picture-in-picture; web-share; clipboard-read; clipboard-write";
         
-        slide.appendChild(iframe);
+        const videoWrapper = document.createElement('div');
+        videoWrapper.style.flex = "1"; 
+        videoWrapper.style.height = "100%";
+        videoWrapper.style.display = "flex";
+        videoWrapper.style.justifyContent = "center";
+        videoWrapper.style.alignItems = "center";
+        videoWrapper.style.backgroundColor = "#000";
+
+        const video = document.createElement('video');
+        video.src = "https://res.cloudinary.com/dhesvrckb/video/upload/v1769232978/2026_michael_joongmin_park_gate_4_yet7yu.mp4";
+        video.style.width = "100%"; 
+        video.style.height = "100%";
+        video.style.objectFit = "contain"; 
+        video.controls = false;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true; // Needed for autoplay
+
+        videoWrapper.appendChild(video);
+        container.appendChild(iframe);
+        container.appendChild(videoWrapper);
+        slide.appendChild(container);
+
         return slide;
     };
 
