@@ -33,18 +33,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const slide = document.createElement('div');
         slide.classList.add('slide', 'iframe-slide');
         
-        // Container for side-by-side layout (managed by CSS classes now)
+        // Main container
         const container = document.createElement('div');
         container.classList.add('iframe-content-wrapper');
+
+        // 1. Iframe Page Wrapper
+        const iframePage = document.createElement('div');
+        iframePage.classList.add('slide-part', 'slide-iframe-page');
 
         const iframe = document.createElement('iframe');
         iframe.src = "https://michaeljpark.github.io/thesis.gate4/";
         iframe.classList.add('slide-iframe');
-        // Allow audio (microphone), autoplay, and other interactive features
         iframe.allow = "autoplay; cleanup; fullscreen; microphone; camera; midi; encrypted-media; picture-in-picture; web-share; clipboard-read; clipboard-write";
         
+        iframePage.appendChild(iframe);
+
+        // 2. Video Page Wrapper
         const videoWrapper = document.createElement('div');
-        videoWrapper.classList.add('slide-video-wrapper');
+        videoWrapper.classList.add('slide-part', 'slide-video-wrapper');
 
         const video = document.createElement('video');
         video.src = "https://res.cloudinary.com/dhesvrckb/video/upload/v1769232978/2026_michael_joongmin_park_gate_4_yet7yu.mp4";
@@ -55,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
         video.muted = true; // Needed for autoplay
 
         videoWrapper.appendChild(video);
-        container.appendChild(iframe);
+
+        container.appendChild(iframePage);
         container.appendChild(videoWrapper);
         slide.appendChild(container);
 

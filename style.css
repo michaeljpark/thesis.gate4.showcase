@@ -169,15 +169,28 @@ body {
     height: 100%;
 }
 
-.slide-iframe {
+/* Common Wrapper for Desktop Side-by-Side */
+.slide-part {
     flex: 1;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* On Desktop, slide-iframe is inside slide-part (slide-iframe-page) */
+.slide-iframe-page {
+    /* Holds the iframe */
+}
+
+.slide-iframe {
+    width: 100%;
+    height: 100%;
     border: none;
+    display: block;
 }
 
 .slide-video-wrapper {
-    flex: 1;
-    height: 100%;
+    /* Holds the video */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -222,21 +235,68 @@ body {
         transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1), left 0.4s, width 0.4s;
     }
 
-    /* Iframe Slide: Stack Vertically */
+    /* Iframe Slide: Create two "pages" */
+    .slide.iframe-slide {
+        height: auto !important; /* Disengage single screen height */
+        display: block; /* Stack children */
+        scroll-snap-align: none; /* Let children snap */
+    }
+
     .iframe-content-wrapper {
         flex-direction: column;
+        display: block;
+        height: auto !important;
+        padding: 0;
+        gap: 0; /* No gap needed if they are separate pages */
+    }
+
+    /* Page 1: Iframe Container */
+    .slide-iframe-page {
+        height: 100vh; /* Takes full viewport */
+        width: 100%;
+        scroll-snap-align: start; /* Standard Snap */
+        position: relative;
+        overflow: hidden;
     }
 
     .slide-iframe {
-        flex: none;
-        height: 50%;
-        width: 100%;
+        /* Reset positioning for robust centering */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        
+        /* 
+           Math for 75% Scale (0.75):
+           Width/Height needed = 100% / 0.75 = 133.333%
+           Offset needed = -133.333% / 2 = -66.666%
+        */
+        width: 133.333%;
+        height: 133.333%;
+        
+        transform: translate(-50%, -50%) scale(0.75);
+        transform-origin: center center;
+        
+        border: none;
+        margin: 0; /* Reset any margins */
     }
 
+    /* Page 2: Video Container */
     .slide-video-wrapper {
-        flex: none;
-        height: 50%;
+        height: 100vh; /* Takes full viewport */
         width: 100%;
+        scroll-snap-align: start; /* Snap point */
+        background-color: #000;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .slide-video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Keeps 3:4 or whatever aspect inside 100vh */
+        max-width: 100%;
     }
 
     /* Move Info Overlay to Bottom Left & Resize Title */
