@@ -31,35 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to create iframe slide
     const createIframeSlide = () => {
         const slide = document.createElement('div');
-        slide.classList.add('slide');
+        slide.classList.add('slide', 'iframe-slide');
         
-        // Container for side-by-side layout
+        // Container for side-by-side layout (managed by CSS classes now)
         const container = document.createElement('div');
-        container.style.display = 'flex';
-        container.style.width = '100%';
-        container.style.height = '100%';
+        container.classList.add('iframe-content-wrapper');
 
         const iframe = document.createElement('iframe');
         iframe.src = "https://michaeljpark.github.io/thesis.gate4/";
-        iframe.style.flex = "1"; // take up 50%
-        iframe.style.height = "100%";
-        iframe.style.border = "none";
+        iframe.classList.add('slide-iframe');
         // Allow audio (microphone), autoplay, and other interactive features
         iframe.allow = "autoplay; cleanup; fullscreen; microphone; camera; midi; encrypted-media; picture-in-picture; web-share; clipboard-read; clipboard-write";
         
         const videoWrapper = document.createElement('div');
-        videoWrapper.style.flex = "1"; 
-        videoWrapper.style.height = "100%";
-        videoWrapper.style.display = "flex";
-        videoWrapper.style.justifyContent = "center";
-        videoWrapper.style.alignItems = "center";
-        videoWrapper.style.backgroundColor = "#000";
+        videoWrapper.classList.add('slide-video-wrapper');
 
         const video = document.createElement('video');
         video.src = "https://res.cloudinary.com/dhesvrckb/video/upload/v1769232978/2026_michael_joongmin_park_gate_4_yet7yu.mp4";
-        video.style.width = "100%"; 
-        video.style.height = "100%";
-        video.style.objectFit = "contain"; 
+        video.classList.add('slide-video'); 
         video.controls = false;
         video.autoplay = true;
         video.loop = true;
@@ -118,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index === undefined) return;
 
         const targetLi = navLinks[index];
+        const isMobile = window.innerWidth <= 768;
         
         // Calculate position relative to the ul container
         // Since nav-pill-bg is absolute inside #top-nav (parent of ul? No, sibling) 
@@ -127,11 +117,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const navRect = navContainer.getBoundingClientRect();
         const liRect = targetLi.getBoundingClientRect();
         
-        const relativeLeft = liRect.left - navRect.left;
-        const width = liRect.width;
+        if (isMobile) {
+            const relativeTop = liRect.top - navRect.top;
+            const height = liRect.height;
+            const width = liRect.width;
+            const relativeLeft = liRect.left - navRect.left;
 
-        navPillBg.style.width = `${width}px`;
-        navPillBg.style.left = `${relativeLeft}px`;
+            navPillBg.style.width = `${width}px`;
+            navPillBg.style.height = `${height}px`;
+            navPillBg.style.top = `${relativeTop}px`;
+            navPillBg.style.left = `${relativeLeft}px`;
+        } else {
+            const relativeLeft = liRect.left - navRect.left;
+            const width = liRect.width;
+
+            navPillBg.style.width = `${width}px`;
+            navPillBg.style.height = '100%'; // Reset to full height
+            navPillBg.style.top = '0'; // Reset top
+            navPillBg.style.left = `${relativeLeft}px`;
+        }
+
         navPillBg.classList.add('active'); // Ensure it's visible
     };
 

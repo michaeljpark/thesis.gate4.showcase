@@ -161,3 +161,96 @@ body {
     font-variant-numeric: tabular-nums;
     opacity: 0.5;
 }
+
+/* Iframe Slide Layout Classes */
+.iframe-content-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-iframe {
+    flex: 1;
+    height: 100%;
+    border: none;
+}
+
+.slide-video-wrapper {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+}
+
+.slide-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    /* Optimize Navigation: Vertical, Small, Top Right */
+    #top-nav {
+        left: auto !important;
+        right: 20px;
+        top: 60px; /* Position below the header/title info */
+        transform: none !important; /* Disable centering transform */
+    }
+
+    #top-nav.visible {
+        transform: none !important;
+        opacity: 1;
+    }
+
+    #nav-links {
+        display: flex;
+        flex-direction: column; /* Vertical stack */
+        align-items: flex-end; /* Align right */
+        gap: 8px; /* Compact spacing */
+    }
+
+    #nav-links li {
+        font-size: 0.75rem; /* Smaller font */
+        padding: 6px 10px; /* Adjust padding */
+    }
+
+    /* Adjust pill transition for vertical movement */
+    #nav-pill-bg {
+        transition: top 0.4s cubic-bezier(0.25, 1, 0.5, 1), height 0.4s cubic-bezier(0.25, 1, 0.5, 1), left 0.4s, width 0.4s;
+    }
+
+    /* Iframe Slide: Stack Vertically */
+    .iframe-content-wrapper {
+        flex-direction: column;
+    }
+
+    .slide-iframe {
+        flex: none;
+        height: 50%;
+        width: 100%;
+    }
+
+    .slide-video-wrapper {
+        flex: none;
+        height: 50%;
+        width: 100%;
+    }
+
+    /* Move Info Overlay to Bottom Left & Resize Title */
+    #info-overlay {
+        top: auto;
+        bottom: 30px;
+        left: 20px;
+        right: auto;
+        font-size: 0.75rem;
+        text-align: left;
+    }
+
+    #title-overlay {
+        font-size: 0.75rem;
+        left: 20px;
+    }
+}
