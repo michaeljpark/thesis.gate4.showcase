@@ -314,3 +314,63 @@ body {
         left: 20px;
     }
 }
+
+/* View Report Button */
+#view-report-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 40px;
+    z-index: 100;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: underline;
+    mix-blend-mode: difference;
+    letter-spacing: -1px;
+}
+
+/* Report Modal & Overlay */
+#report-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+}
+
+#report-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#report-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    cursor: pointer;
+}
+
+#report-content {
+    position: relative;
+    z-index: 2001;
+    max-width: 90%;
+    max-height: 90vh;
+}
+
+#report-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    display: block;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}

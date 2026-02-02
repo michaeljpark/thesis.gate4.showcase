@@ -203,4 +203,20 @@ document.addEventListener('DOMContentLoaded', () => {
              }
         });
     });
+
+    // View Report Logic
+    const viewReportBtn = document.getElementById('view-report-btn');
+    const reportModal = document.getElementById('report-modal');
+    const reportOverlay = document.getElementById('report-overlay');
+
+    if (viewReportBtn && reportModal && reportOverlay) {
+        viewReportBtn.addEventListener('click', () => {
+            reportModal.classList.remove('hidden');
+        });
+
+        // Close when clicking anywhere on the modal (overlay or image)
+        reportModal.addEventListener('click', () => {
+            reportModal.classList.add('hidden');
+        });
+    }
 });
