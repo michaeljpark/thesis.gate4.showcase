@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('slideshow-container');
-    const totalSlides = 44; // Max frame index (0 to 44)
+    const totalSlides = 32; // Max frame index (0 to 32)
 
     // Function to create an image slide
     const createImageSlide = (index) => {
@@ -8,7 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
         slide.classList.add('slide');
 
         const img = document.createElement('img');
-        img.src = `Frame-${index}.png`; 
+        if (index <= 29) {
+            img.src = `Frame-${index}.png`; 
+        } else {
+            img.src = `r${index - 29}.png`; // 30 -> r1, 31 -> r2, 32 -> r3
+        }
         img.alt = `Gate 4 Showcase - Slide ${index}`;
         
         if (index > 3) {
@@ -28,59 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return slide;
     };
 
-    // Function to create iframe slide
-    const createIframeSlide = () => {
-        const slide = document.createElement('div');
-        slide.classList.add('slide', 'iframe-slide');
-        
-        // Main container
-        const container = document.createElement('div');
-        container.classList.add('iframe-content-wrapper');
-
-        // 1. Iframe Page Wrapper
-        const iframePage = document.createElement('div');
-        iframePage.classList.add('slide-part', 'slide-iframe-page');
-
-        const iframe = document.createElement('iframe');
-        iframe.src = "https://michaeljpark.github.io/thesis.gate4/";
-        iframe.classList.add('slide-iframe');
-        iframe.allow = "autoplay; cleanup; fullscreen; microphone; camera; midi; encrypted-media; picture-in-picture; web-share; clipboard-read; clipboard-write";
-        
-        iframePage.appendChild(iframe);
-
-        // 2. Video Page Wrapper
-        const videoWrapper = document.createElement('div');
-        videoWrapper.classList.add('slide-part', 'slide-video-wrapper');
-
-        const video = document.createElement('video');
-        video.src = "https://res.cloudinary.com/dhesvrckb/video/upload/v1769232978/2026_michael_joongmin_park_gate_4_yet7yu.mp4";
-        video.classList.add('slide-video'); 
-        video.controls = false;
-        video.autoplay = true;
-        video.loop = true;
-        video.muted = true; // Needed for autoplay
-        video.setAttribute('playsinline', ''); // Needed for mobile autoplay (iOS)
-
-        videoWrapper.appendChild(video);
-
-        container.appendChild(iframePage);
-        container.appendChild(videoWrapper);
-        slide.appendChild(container);
-
-        return slide;
-    };
-
     for (let i = 0; i <= totalSlides; i++) {
         // Create image slide
         const slide = createImageSlide(i);
         container.appendChild(slide);
-
-        // Insert iframe between 34 and 35
-        if (i === 34) {
-             const iframeSlide = createIframeSlide();
-             iframeSlide.setAttribute('data-type', 'iframe');
-             container.appendChild(iframeSlide);
-        }
     }
 
     // Navigation & Scroll Logic
@@ -90,24 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Map section names to li indices
     const sectionIndexMap = {
-        "Recap": 0,
-        "Insights": 1,
-        "User Flow": 2,
-        "Working Prototype": 3,
-        "Branding": 4
+        "Platform Mapping": 0,
+        "Business Value": 1,
+        "Value Definition": 2,
+        "Service Components": 3,
+        "Local Community/Culture": 4,
+        "Industrial Operational Radio": 5,
+        "Urban Radio Infrastructure": 6,
+        "Service Diagram": 7,
+        "Report": 8
     };
 
-    // Recap: 1-7 (DOM 2-8)
-    // Insights: 8-17 (DOM 9-18)
-    // User Flow: 18-34 (DOM 19-35)
-    // Working Prototype (Iframe): (DOM 36)
-    // Branding: 35-44 (DOM 37-46)
     const sections = [
-        { start: 2, end: 8, label: "Recap" },
-        { start: 9, end: 18, label: "Insights" },
-        { start: 19, end: 35, label: "User Flow" }, 
-        { start: 36, end: 36, label: "Working Prototype" },
-        { start: 37, end: 46, label: "Branding" } 
+        { start: 2, end: 7, label: "Platform Mapping" },
+        { start: 8, end: 10, label: "Business Value" },
+        { start: 11, end: 16, label: "Value Definition" }, 
+        { start: 17, end: 21, label: "Service Components" },
+        { start: 22, end: 23, label: "Local Community/Culture" },
+        { start: 24, end: 25, label: "Industrial Operational Radio" },
+        { start: 26, end: 27, label: "Urban Radio Infrastructure" },
+        { start: 28, end: 29, label: "Service Diagram" },
+        { start: 30, end: 32, label: "Report" }
     ];
 
     const updatePillPosition = (label) => {
@@ -158,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const index = Array.from(slides).indexOf(entry.target) + 1;
+                const index = Array.from(slides).indexOf(entry.target);
 
-                if (index === 1) {
+                if (index === 0 || index === 1) {
                     navContainer.classList.remove('visible');
                 } else {
                     navContainer.classList.add('visible'); // Show entire nav
@@ -170,6 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (currentSection) {
                         updatePillPosition(currentSection.label);
                     }
+                }
+
+                // Update View Report / Home button
+                if (index >= 30) {
+                    viewReportBtn.textContent = "Home";
+                } else {
+                    viewReportBtn.textContent = "View Report";
                 }
             }
         });
@@ -197,26 +162,29 @@ document.addEventListener('DOMContentLoaded', () => {
              
              const targetSlideIndex = sections[idx].start;
              
-             // slides NodeList is 0-indexed, so targetSlideIndex 2 means slides[1]
-             if (slides[targetSlideIndex - 1]) {
-                 slides[targetSlideIndex - 1].scrollIntoView({ behavior: 'smooth' });
+             // slides NodeList is 0-indexed, so targetSlideIndex 2 means slides[2]
+             if (slides[targetSlideIndex]) {
+                 slides[targetSlideIndex].scrollIntoView({ behavior: 'smooth' });
              }
         });
     });
 
-    // View Report Logic
+    // View Report / Home Logic
     const viewReportBtn = document.getElementById('view-report-btn');
-    const reportModal = document.getElementById('report-modal');
-    const reportOverlay = document.getElementById('report-overlay');
 
-    if (viewReportBtn && reportModal && reportOverlay) {
+    if (viewReportBtn) {
         viewReportBtn.addEventListener('click', () => {
-            reportModal.classList.remove('hidden');
-        });
-
-        // Close when clicking anywhere on the modal (overlay or image)
-        reportModal.addEventListener('click', () => {
-            reportModal.classList.add('hidden');
+            if (viewReportBtn.textContent === "Home") {
+                // Scroll to Frame-0 (index 0)
+                if (slides[0]) {
+                    slides[0].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                // Scroll to Report section (index 30)
+                if (slides[30]) {
+                    slides[30].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
         });
     }
 });
